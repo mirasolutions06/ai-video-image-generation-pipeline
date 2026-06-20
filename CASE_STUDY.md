@@ -8,6 +8,11 @@ part.
 This is written to be honest about what works, what is a known gap, and what I
 would do next. There are no invented metrics.
 
+> **Context:** this engine is the private generation backend behind
+> [Mira Content Studio](https://miracontent.studio) (the live customer-facing
+> product). This case study is about the *engine* — the orchestration and ops
+> underneath — not the storefront.
+
 ---
 
 ## 1. Problem

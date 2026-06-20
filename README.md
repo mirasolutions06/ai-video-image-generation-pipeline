@@ -10,10 +10,32 @@ the engineering decisions, and the operational thinking behind the engine. The
 working code, the brand projects, and all generated media are kept in a private
 repository — see [What's intentionally excluded](#whats-intentionally-excluded).
 
-> **Status — honest version:** this is a working tool I use to produce real
-> creative work, run by a single operator (me) from the terminal. It is **not**
-> a multi-user product and has never run as a hosted service. Where the docs
-> describe something that is designed-but-not-yet-wired, they say so explicitly.
+> **Status — honest version:** this is the generation engine behind
+> [Mira Content Studio](https://miracontent.studio) (live), and I use it to
+> produce real creative work. It runs **operator-in-the-loop from the
+> terminal** — it is not itself a hosted, multi-tenant service; the Studio's
+> customer-facing front-end and commerce live in a separate repo. No usage,
+> revenue, or customer numbers are claimed here. Where the docs describe
+> something designed-but-not-yet-wired, they say so explicitly.
+
+## Where this fits — the engine behind Mira Content Studio
+
+Mira Content Engine is the private **generation backend** behind
+[**Mira Content Studio**](https://miracontent.studio) — a creative-operations
+product that turns a brand brief into product photography and campaign video.
+
+The two are deliberately separated:
+
+- **The Studio** is the customer-facing product — marketing site, portfolio,
+  the social output layer, and self-serve booking/commerce. Its marketing site
+  is source-available at
+  [mira-content-studio-site](https://github.com/mirasolutions06/mira-content-studio-site),
+  and its own README notes that "the generation engine is not in this repo."
+- **The engine** — documented here — is that generation engine: the model
+  orchestration, cost control, reproducibility, and brand-memory underneath. The
+  code itself stays private; this package is its public proof.
+
+In other words: the Studio is the storefront, this is the workshop behind it.
 
 ---
 
@@ -147,6 +169,7 @@ for this package, not a real client.
 | How it's actually run day to day | [docs/operations.md](docs/operations.md) |
 | The exhaustive list of modes, providers, and skill files | [docs/tool-catalog.md](docs/tool-catalog.md) |
 | A concrete config shape | [examples/example-config.json](examples/example-config.json) |
+| The live product this engine powers | [miracontent.studio](https://miracontent.studio) · [site repo](https://github.com/mirasolutions06/mira-content-studio-site) |
 
 ## Verified facts in this package
 
