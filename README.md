@@ -44,6 +44,17 @@ brief  →  director (prompt enrichment)  →  config.json  →  pipeline  →  
 It runs in three modes: **images** (the hot path), **video**, and **overlay**
 (typographic text-on-photo for campaign lockups).
 
+## Sample output
+
+A few frames the engine produced (the author's own concept work, fully
+AI-generated, resized for the web). More — and the engineering each one proves —
+in [examples/outputs/](examples/outputs/).
+
+| On-model lifestyle | Action / product-in-use | Packshot + text fidelity |
+|---|---|---|
+| ![sounds](examples/outputs/sounds-headphones-hero.jpg) | ![zappy](examples/outputs/zappy-court-lifestyle.jpg) | ![FORM](examples/outputs/form-creatine-packshot-pair.jpg) |
+| Real skin, not airbrushed "AI look" | Legible label in motion, correct scale | Crisp small text; front/back composed to match |
+
 ## Why it exists
 
 It started as a way to make my own brand and product work cheaper and faster
@@ -113,7 +124,10 @@ This package deliberately does **not** contain:
 - **Credentials** — `.env`, API keys, or tokens of any kind.
 - **The engine source code** — kept private; described here instead.
 - **Brand / client projects** — ~3.6 GB of briefs, reference imagery, and
-  generated stills and video across 60+ project folders.
+  generated stills and video across 60+ project folders. (A small curated set
+  of the author's own sample frames *is* included — see
+  [Sample output](#sample-output) — but the full library and the prompts that
+  produced them are not.)
 - **Brand memory** — the per-brand library of tagged winning frames.
 - **Proprietary director prompts** — the full reference library and the exact
   enrichment prompts.

@@ -12,8 +12,9 @@ There are two repositories:
   folders (~3.6 GB of briefs, reference imagery, and generated stills/video),
   the per-brand memory library, the full director prompt library, internal
   campaign plans, and `.env`.
-- **Public (this one):** documentation, the case study, diagrams, and a single
-  synthetic example config. No code, no media, no secrets.
+- **Public (this one):** documentation, the case study, diagrams, a single
+  synthetic example config, and a small curated set of the author's own sample
+  output frames. No source code, no secrets, no client-confidential work.
 
 This package was assembled in a **separate directory with its own fresh git
 history**, not by filtering the private repo. That removes the usual leak vector
@@ -30,7 +31,7 @@ no shared history to leak from.
 | `memory/brands/**` | Per-brand library of winning frames — the brand's accumulated visual identity. |
 | Full director prompt library | The exact enrichment prompts and reference catalog — the core IP. |
 | Internal plans / specs | Roadmap and campaign design notes. |
-| Generated screenshots of output | Every output frame is brand work, so none are shown. The example config is synthetic. |
+| The full generated-media library | Only a **small curated set** of the author's own concept frames is published (see the README gallery); the rest — and anything resembling confidential client work — stays private. The example config is synthetic. |
 
 ## Credential handling
 
