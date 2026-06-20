@@ -1,0 +1,7 @@
+# This is a documentation-only repository. Nothing should need building here.
+# These entries exist purely to prevent accidental commits.
+.DS_Store
+node_modules/
+*.log
+.env
+.env.*

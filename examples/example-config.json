@@ -1,0 +1,31 @@
+{
+  "_comment": "SYNTHETIC example for the public package — a fictional brand, not a real client. It shows the images-mode config shape and the 'every prompt is a complete photographic brief' rule. Prompts here are illustrative, newly written for documentation.",
+  "mode": "images",
+  "title": "klint-launch",
+  "brand": "Klint Ceramics",
+  "brief": "Klint Ceramics — matte stoneware pour-over coffee dripper in oatmeal glaze, slow-craft studio positioning. This run: a three-shot launch micro-batch on a single lighting recipe — one hero, one lifestyle, one detail. Daylight studio, calm and warm.",
+  "imageModel": "gemini-3-pro-image-preview",
+  "imageSize": "2K",
+  "formats": ["square"],
+  "anchorScenes": true,
+  "clips": [
+    {
+      "prompt": "Hero still of a matte oatmeal-glaze stoneware pour-over coffee dripper on pale oak, three-quarter front, soft north-window daylight from camera-left at 45 degrees (large soft source, fill 2:1), gentle rim separating the rim of the cone from a warm off-white background, 85mm f/2.8, shallow but readable depth, Kodak Portra 400 grade with lifted blacks, in the manner of Irving Penn still-life stillness.",
+      "hasProduct": true,
+      "hasModel": false,
+      "isDetail": false
+    },
+    {
+      "prompt": "Lifestyle frame of two hands mid-pour with a gooseneck kettle into the same oatmeal stoneware dripper on a linen-draped counter, steam catching the window light, same north-window daylight from camera-left at 45 degrees, 50mm f/2.0 for natural context, deep enough focus to keep both kettle spout and dripper sharp, same Kodak Portra 400 grade, in the manner of Irving Penn warmth.",
+      "hasProduct": true,
+      "hasModel": true,
+      "isDetail": false
+    },
+    {
+      "prompt": "Detail macro of the dripper's spiral inner ribs and the matte glaze texture meeting the unglazed clay foot, raking north-window daylight from camera-left grazing the ribs to reveal surface, 100mm macro f/4 sharp across the rib field, same Kodak Portra 400 grade, in the manner of Irving Penn material study.",
+      "hasProduct": true,
+      "hasModel": false,
+      "isDetail": true
+    }
+  ]
+}
