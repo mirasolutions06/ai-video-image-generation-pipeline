@@ -24,7 +24,7 @@ Everything else follows from that split.
 flowchart TD
     brief["Brief (one line)"] --> director
 
-    subgraph direction["Direction — markdown skill, $0, human-in-loop"]
+    subgraph direction["Direction: markdown skill, $0, human-in-loop"]
         director["Director skill"]
         reflib["Reference library<br/>photographers · lighting · lenses<br/>color grades · poses · categories"]
         director <--> reflib
@@ -34,7 +34,7 @@ flowchart TD
 
     config --> cli["CLI entry (commander)<br/>--project --dry-run --render --research"]
 
-    subgraph production["Production — TypeScript pipeline"]
+    subgraph production["Production: TypeScript pipeline"]
         cli --> validate["Validate config + least-privilege env keys"]
         validate --> route{"mode?"}
         route -->|images| images["Images orchestrator"]
@@ -76,13 +76,13 @@ hot path never loads them.
 
 `config.json` is a discriminated union on `mode`:
 
-- `ProjectConfig` (`mode: "images"`) — brand, brief, default provider/model,
+- `ProjectConfig` (`mode: "images"`): brand, brief, default provider/model,
   formats, image size, aspect ratio, anchor toggle, and an array of `clips`
   (scenes). Each clip is an enriched prompt plus scene tags
   (`hasModel` / `hasProduct` / `isDetail`) and optional per-clip overrides.
-- `VideoConfig` (`mode: "video"`) — format, per-clip provider, optional
+- `VideoConfig` (`mode: "video"`): format, per-clip provider, optional
   voiceover script + voice, captions, hook text, music, transitions.
-- `OverlayConfig` (`mode: "overlay"`) — a campaign meta block (brand name,
+- `OverlayConfig` (`mode: "overlay"`): a campaign meta block (brand name,
   concept, palette, typography) and clips that place typographic lockups on
   existing photos using named presets.
 
@@ -100,7 +100,7 @@ structure is in [tool-catalog.md](tool-catalog.md).
 ### Reference filtering
 
 Not every reference belongs in every scene. The engine filters references per
-scene from the scene tags — a detail macro shouldn't receive the model
+scene from the scene tags: a detail macro shouldn't receive the model
 reference; a portrait should. Brand-library winners are appended as additional
 visual anchors, with caps (total references capped to leave the model headroom;
 library references capped to a few recent winners per tag bucket).
@@ -109,7 +109,7 @@ library references capped to a few recent winners per tag bucket).
 
 Within a run, scene 1 is generated first and passed back as an **anchor image**
 for scenes 2..N, so a batch looks like one shoot. This is toggleable
-(`anchorScenes: false`) — necessary when a real model photo is supplied, because
+(`anchorScenes: false`), necessary when a real model photo is supplied, because
 anchor + real face together can trip a provider's same-person safety guard.
 
 ### Provider adapters
@@ -122,7 +122,7 @@ a provider is adding one adapter.
 ### Versioned output
 
 Each run writes `output/v{N}/` (monotonic, never overwriting prior versions)
-containing the generated scenes and a `run.json` — a full snapshot of every
+containing the generated scenes and a `run.json`: a full snapshot of every
 prompt, every reference, and total cost. `run.json` is written via temp-file +
 atomic rename so an interrupted run can't corrupt the manifest.
 
@@ -149,7 +149,7 @@ When `--render` is set, the video mode hands assembled clips to a **Remotion**
 with audio ducking, transitions, and brand outro. It is lazy-loaded so it never
 costs the image path anything.
 
-## Image run — sequence
+## Image run: sequence
 
 ```mermaid
 sequenceDiagram
@@ -186,7 +186,7 @@ sequenceDiagram
 
 ```
 projects/{name}/
-├── config.json                  # required — the run contract
+├── config.json                  # required: the run contract
 ├── product.jpg model.jpg …      # optional reference images
 └── output/
     ├── v1/ v2/ v3/              # versioned, never overwritten
@@ -208,7 +208,7 @@ are never committed.
 
 It is a **simple, inspectable, single-operator** system: files on disk, one CLI,
 human review at the spend gate, a small deterministic core with tests around it.
-It is **not** a service — there's no server, no database, no auth, no concurrency
-across operators — and it isn't trying to be. The complexity budget went into
+It is **not** a service (there's no server, no database, no auth, no concurrency
+across operators), and it isn't trying to be. The complexity budget went into
 the things that actually mattered: consistency, spend control, reproducibility,
 and surviving the models' failure modes.

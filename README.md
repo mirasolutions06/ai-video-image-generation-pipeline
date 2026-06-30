@@ -8,30 +8,30 @@ pipeline.
 This repository is a **public proof package**. It documents the architecture,
 the engineering decisions, and the operational thinking behind the engine. The
 working code, the brand projects, and all generated media are kept in a private
-repository — see [What's intentionally excluded](#whats-intentionally-excluded).
+repository (see [What's intentionally excluded](#whats-intentionally-excluded)).
 
-> **Status — honest version:** this is the generation engine behind
+> **Status (honest version):** this is the generation engine behind
 > [Mira Content Studio](https://miracontent.studio) (live), and I use it to
 > produce real creative work. It runs **operator-in-the-loop from the
-> terminal** — it is not itself a hosted, multi-tenant service; the Studio's
+> terminal**; it is not itself a hosted, multi-tenant service; the Studio's
 > customer-facing front-end and commerce live in a separate repo. No usage,
 > revenue, or customer numbers are claimed here. Where the docs describe
 > something designed-but-not-yet-wired, they say so explicitly.
 
-## Where this fits — the engine behind Mira Content Studio
+## Where this fits: the engine behind Mira Content Studio
 
 Mira Content Engine is the private **generation backend** behind
-[**Mira Content Studio**](https://miracontent.studio) — a creative-operations
+[**Mira Content Studio**](https://miracontent.studio), a creative-operations
 product that turns a brand brief into product photography and campaign video.
 
 The two are deliberately separated:
 
-- **The Studio** is the customer-facing product — marketing site, portfolio,
+- **The Studio** is the customer-facing product: marketing site, portfolio,
   the social output layer, and self-serve booking/commerce. Its marketing site
   is source-available at
   [mira-content-studio-site](https://github.com/mirasolutions06/mira-content-studio-site),
   and its own README notes that "the generation engine is not in this repo."
-- **The engine** — documented here — is that generation engine: the model
+- **The engine** (documented here) is that generation engine: the model
   orchestration, cost control, reproducibility, and brand-memory underneath. The
   code itself stays private; this package is its public proof.
 
@@ -51,15 +51,15 @@ brief  →  director (prompt enrichment)  →  config.json  →  pipeline  →  
                                                               ↘ brand library accumulates winners
 ```
 
-1. **Director** — a markdown-defined "photography director" reads the brand,
+1. **Director:** a markdown-defined "photography director" reads the brand,
    the reference images, and a reference library (photographers, lighting
    setups, lenses, film/color grades) and writes a fully-specified photographic
-   brief for each shot. This step makes **no API call** — it is structured
+   brief for each shot. This step makes **no API call**; it is structured
    knowledge, not a model.
-2. **Pipeline** — a TypeScript CLI takes the enriched config and generates each
+2. **Pipeline:** a TypeScript CLI takes the enriched config and generates each
    scene against the chosen provider, applying reference filtering, style
    anchoring, cost tracking, and versioned output.
-3. **Brand library** — winning frames are tagged and stored per brand, then fed
+3. **Brand library:** winning frames are tagged and stored per brand, then fed
    back as visual references on later runs, so a brand's look gets more
    consistent over time rather than drifting.
 
@@ -69,7 +69,7 @@ It runs in three modes: **images** (the hot path), **video**, and **overlay**
 ## Sample output
 
 A few frames the engine produced (the author's own concept work, fully
-AI-generated, resized for the web). More — and the engineering each one proves —
+AI-generated, resized for the web). More (and the engineering each one proves)
 in [examples/outputs/](examples/outputs/).
 
 | On-model lifestyle | Action / product-in-use | Packshot + text fidelity |
@@ -82,7 +82,7 @@ in [examples/outputs/](examples/outputs/).
 It started as a way to make my own brand and product work cheaper and faster
 than commissioning a shoot per idea, and to stop re-deriving the same lighting
 and lens decisions every time. The interesting engineering problem turned out
-not to be "call an image API" — it was everything around the call: keeping a
+not to be "call an image API"; it was everything around the call: keeping a
 brand visually consistent across dozens of runs, spending money predictably,
 recovering from the specific ways these models fail, and making every run
 reproducible and reviewable.
@@ -107,7 +107,7 @@ See [docs/tool-catalog.md](docs/tool-catalog.md) for the full catalog.
 
 There is **one CLI entry point** and a small, explicit surface:
 
-- **Modes:** `images`, `video`, `overlay` — selected by a discriminated-union
+- **Modes:** `images`, `video`, `overlay`, selected by a discriminated-union
   config (`config.json`) per project.
 - **Flags:** `--project <name>`, `--dry-run` (estimate cost, no spend),
   `--render` (enable the Remotion video render path), `--research` (opt-in web
@@ -123,17 +123,17 @@ The engine spends real money on every run and produces brand-bearing creative,
 so the safety model is mostly about **spend, reproducibility, and human review**
 rather than untrusted input:
 
-- **Dry-run first** — `--dry-run` prices a run from an explicit cost map before
+- **Dry-run first:** `--dry-run` prices a run from an explicit cost map before
   any API call.
-- **Least-privilege key validation** — each run validates only the API keys for
+- **Least-privilege key validation:** each run validates only the API keys for
   the providers it will actually use, and refuses to start if one is missing.
-- **Approval gates** — the director presents an estimated cost and shot plan for
+- **Approval gates:** the director presents an estimated cost and shot plan for
   approval before generating, and (by convention) pauses expensive runs after
   the first scene for a visual check.
-- **Fail loud** — provider errors surface per scene and are recorded; the
+- **Fail loud:** provider errors surface per scene and are recorded; the
   pipeline does not silently retry in a way that hides a failure or quietly
   doubles spend.
-- **No secrets in code** — all credentials come from environment variables; a
+- **No secrets in code:** all credentials come from environment variables; a
   scan of the source tree for key material comes back clean.
 
 Details and the honest gaps are in
@@ -143,17 +143,17 @@ Details and the honest gaps are in
 
 This package deliberately does **not** contain:
 
-- **Credentials** — `.env`, API keys, or tokens of any kind.
-- **The engine source code** — kept private; described here instead.
-- **Brand / client projects** — ~3.6 GB of briefs, reference imagery, and
+- **Credentials:** `.env`, API keys, or tokens of any kind.
+- **The engine source code:** kept private; described here instead.
+- **Brand / client projects:** ~3.6 GB of briefs, reference imagery, and
   generated stills and video across 60+ project folders. (A small curated set
-  of the author's own sample frames *is* included — see
-  [Sample output](#sample-output) — but the full library and the prompts that
+  of the author's own sample frames *is* included (see
+  [Sample output](#sample-output)), but the full library and the prompts that
   produced them are not.)
-- **Brand memory** — the per-brand library of tagged winning frames.
-- **Proprietary director prompts** — the full reference library and the exact
+- **Brand memory:** the per-brand library of tagged winning frames.
+- **Proprietary director prompts:** the full reference library and the exact
   enrichment prompts.
-- **Internal plans and specs** — campaign design docs and roadmap notes.
+- **Internal plans and specs:** campaign design docs and roadmap notes.
 
 The example config in [`examples/`](examples/) is a **synthetic** brand written
 for this package, not a real client.
@@ -184,3 +184,9 @@ this package, not estimated:
 
 No usage metrics, adoption numbers, or performance benchmarks are claimed,
 because none have been measured rigorously.
+
+## Contact
+
+Built and operated by Mira Solutions, an AI engineering and automation studio.
+
+mira.solutions06@gmail.com

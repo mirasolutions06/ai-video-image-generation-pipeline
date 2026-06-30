@@ -1,4 +1,4 @@
-# Case Study — Mira Content Engine
+# Case Study: Mira Content Engine
 
 How I built a single-operator pipeline that turns a brand brief into
 campaign-grade imagery and video by orchestrating ~10 generative models, and
@@ -10,8 +10,8 @@ would do next. There are no invented metrics.
 
 > **Context:** this engine is the private generation backend behind
 > [Mira Content Studio](https://miracontent.studio) (the live customer-facing
-> product). This case study is about the *engine* — the orchestration and ops
-> underneath — not the storefront.
+> product). This case study is about the *engine* (the orchestration and ops
+> underneath), not the storefront.
 
 ---
 
@@ -19,7 +19,7 @@ would do next. There are no invented metrics.
 
 I wanted to produce product-photography-grade stills and short-form video for
 brands without booking a studio, a photographer, and a model for every idea.
-The naive version of this — "call an image model with a prompt" — produces
+The naive version of this ("call an image model with a prompt") produces
 stock-looking output that no one would pay for, and it produces *different*
 stock-looking output every time, so a brand never develops a consistent look.
 
@@ -27,8 +27,8 @@ The real problems, in order of how much time they took:
 
 1. **Quality.** Off-the-cuff prompts give you "a bottle on a table." Getting
    "amber glass jar with bamboo lid on weathered oak, backlit so the glass
-   glows" requires thinking like a photographer — light direction, light
-   quality, lens, f-stop, film/color grade, a named stylistic reference — every
+   glows" requires thinking like a photographer (light direction, light
+   quality, lens, f-stop, film/color grade, a named stylistic reference) every
    single time.
 2. **Consistency.** A brand's third campaign should look like it came from the
    same studio as its first. Independent prompts drift.
@@ -70,7 +70,7 @@ quality, give a lens and f-stop, name a color grade, cite a photographer, keep
 the same lighting setup and grade across a batch.
 
 Choosing markdown over code was deliberate. Direction is judgment, not
-determinism — encoding it as a knowledge base keeps it editable, reviewable, and
+determinism; encoding it as a knowledge base keeps it editable, reviewable, and
 free to run, and it keeps the expensive/deterministic part (the pipeline) small
 and testable. The tradeoff is that the director's quality isn't unit-testable
 and depends on a capable operator at the controls. I accepted that because the
@@ -80,12 +80,12 @@ human is in the loop at the approval gate anyway.
 
 The engine composes context from three tiers, cheapest first:
 
-1. **Skill knowledge** — always on, the markdown library above.
-2. **User-supplied refs** — `product.jpg`, `model.jpg`, `style.jpg`,
+1. **Skill knowledge:** always on, the markdown library above.
+2. **User-supplied refs:** `product.jpg`, `model.jpg`, `style.jpg`,
    `location.jpg` dropped in the project folder. The engine reads material
    physics off them (glass refracts → backlight; matte absorbs → side light;
    metal reflects → large soft source; dark skin needs stronger fill + rim).
-3. **Auto-research** — opt-in (`--research`). Web-searches current editorials,
+3. **Auto-research:** opt-in (`--research`). Web-searches current editorials,
    extracts technical recipes into prose, and uses them as a per-campaign
    reference. Records source URLs as attribution; never downloads or
    redistributes copyrighted images.
@@ -117,7 +117,7 @@ React/Remotion.
 
 ## 3. Tool / model orchestration
 
-The orchestration choices reflect what each model is actually good and bad at —
+The orchestration choices reflect what each model is actually good and bad at,
 learned empirically, encoded as defaults:
 
 - **Image:** Gemini 3 Pro Image is the default for finals (reliable text/detail
@@ -136,7 +136,7 @@ learned empirically, encoded as defaults:
 The **brand library is the closest thing to a moat.** Winning frames are tagged
 (`hero`, `lifestyle`, `detail`, `portrait`) and stored per brand. On the next
 run, the engine pulls up to three recent winners from the matching tag bucket
-and passes them as visual references — so the brand's look compounds instead of
+and passes them as visual references, so the brand's look compounds instead of
 drifting. It's a simple feedback loop, but it's the difference between "an image
 generator" and "a brand's studio."
 
@@ -159,7 +159,7 @@ read from and write back to.
 **Overlay (campaign lockups).** A separate mode composes typographic
 text-on-photo using category-tuned presets (jewelry sandwich-lockup, perfume
 centered wordmark, performance top-left credit, corner stamp, spec chip) derived
-from how real campaigns set type — kept separate from generation because text
+from how real campaigns set type, kept separate from generation because text
 rendering wants a different model and a mask, not a diffusion prompt.
 
 ## 5. Production / operations thinking
@@ -178,7 +178,7 @@ rendering wants a different model and a mask, not a diffusion prompt.
   frames that worked plus a clear note on the one that didn't, not a dead run.
 - **Observability is honest-but-basic:** structured step/info/success/error
   logging to the console and the `run.json` audit trail. There is no metrics
-  backend — see gaps.
+  backend; see gaps.
 
 ## 6. Tradeoffs I made on purpose
 
@@ -200,9 +200,9 @@ encoded workarounds are most of the engine's practical value:
   closed/covered and assemble a look across runs.
 - **Text/label garbling.** Close-ups render labels perfectly; stacked or
   floating small labels garble. Workaround: face the label forward, enlarge the
-  hero, inline the exact spelling, re-roll — or route text to GPT Image.
+  hero, inline the exact spelling, re-roll, or route text to GPT Image.
 - **Identity drift & the likeness guard.** Scenes drift in identity without an
-  anchor — but using an anchor *and* a real `model.jpg` trips a same-person
+  anchor, but using an anchor *and* a real `model.jpg` trips a same-person
   safety guard ("no image data"). Workaround: `anchorScenes: false` when a real
   face reference is present.
 - **Plastic AI skin.** Default beauty close-ups look airbrushed. Workaround: an
@@ -220,9 +220,9 @@ encoded workarounds are most of the engine's practical value:
 
 ## 8. Known gaps (honest)
 
-- **Re-run inheritance isn't wired.** The versioning layer *has* the machinery —
-  `run.json` carries a `parentVersion`, scenes carry an `inherited` flag, and a
-  `resolveScene` walker follows the parent chain — but the images orchestrator
+- **Re-run inheritance isn't wired.** The versioning layer *has* the machinery
+  (`run.json` carries a `parentVersion`, scenes carry an `inherited` flag, and a
+  `resolveScene` walker follows the parent chain), but the images orchestrator
   always writes `inherited: false` and never sets a parent. So in practice a
   re-run re-bills every scene, even though the README's "only pay for what
   changed" framing implies otherwise. This is the single most misleading gap and
@@ -249,26 +249,27 @@ encoded workarounds are most of the engine's practical value:
 5. **Externalize secrets** beyond `.env` (a secret manager) before this is ever
    anything but single-operator.
 
-## 10. Testing — current state
+## 10. Testing: current state
 
 The engine **does** have tests: **58 passing tests across 12 files**, unit plus
 end-to-end, with every external provider mocked (`@google/genai` and `fetch`),
 so the suite costs nothing to run and is deterministic. `tsc --noEmit` is clean.
-Coverage is strongest on the deterministic core — cost, versioning, brand
-memory, reference filtering, caching, retry, validation — and on
+Coverage is strongest on the deterministic core (cost, versioning, brand
+memory, reference filtering, caching, retry, validation) and on
 end-to-end mode runs against fake providers.
 
 The smallest useful additions, in priority order:
 
-1. **Provider-adapter contract tests** — assert each adapter maps the internal
+1. **Provider-adapter contract tests:** assert each adapter maps the internal
    request to the provider's expected shape and parses the response, so silent
    API drift is caught without spending money.
-2. **A regression test for the inheritance gap** — once inheritance is wired,
+2. **A regression test for the inheritance gap:** once inheritance is wired,
    prove a re-run with one changed prompt bills exactly one scene.
-3. **A cost-ceiling test** — once the ceiling is enforced, prove a run that
+3. **A cost-ceiling test:** once the ceiling is enforced, prove a run that
    would exceed it refuses to start.
 
 ---
 
-*Written as a portfolio artifact. The engine is real and in personal use; it has
-not been deployed as a service, and no usage or performance numbers are claimed.*
+*The engine is real and in active use producing client and concept work; it runs
+operator-in-the-loop from the terminal and has not been deployed as a hosted
+service, and no usage or performance numbers are claimed.*

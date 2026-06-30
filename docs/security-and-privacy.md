@@ -8,7 +8,7 @@ handles credentials and spend, and where the honest gaps are.
 
 There are two repositories:
 
-- **Private (local):** the full working engine — source code, ~60+ brand project
+- **Private (local):** the full working engine, including source code, ~60+ brand project
   folders (~3.6 GB of briefs, reference imagery, and generated stills/video),
   the per-brand memory library, the full director prompt library, internal
   campaign plans, and `.env`.
@@ -18,7 +18,7 @@ There are two repositories:
 
 This package was assembled in a **separate directory with its own fresh git
 history**, not by filtering the private repo. That removes the usual leak vector
-where a sanitized fork still carries secrets or media in old commits — there is
+where a sanitized fork still carries secrets or media in old commits; there is
 no shared history to leak from.
 
 ## What is intentionally excluded, and why
@@ -28,10 +28,10 @@ no shared history to leak from.
 | `.env`, API keys, tokens | Live credentials for paid model providers. Never published. |
 | Engine source code | Kept private; the design is documented here instead. |
 | `projects/**` (briefs, refs, generated media) | Real brand/client creative work and reference photography. Not mine to publish, and large. |
-| `memory/brands/**` | Per-brand library of winning frames — the brand's accumulated visual identity. |
-| Full director prompt library | The exact enrichment prompts and reference catalog — the core IP. |
+| `memory/brands/**` | Per-brand library of winning frames: the brand's accumulated visual identity. |
+| Full director prompt library | The exact enrichment prompts and reference catalog: the core IP. |
 | Internal plans / specs | Roadmap and campaign design notes. |
-| The full generated-media library | Only a **small curated set** of the author's own concept frames is published (see the README gallery); the rest — and anything resembling confidential client work — stays private. The example config is synthetic. |
+| The full generated-media library | Only a **small curated set** of the author's own concept frames is published (see the README gallery); the rest (and anything resembling confidential client work) stays private. The example config is synthetic. |
 
 ## Credential handling
 
@@ -48,7 +48,7 @@ no shared history to leak from.
   required key is missing, with a clear message rather than a mid-run failure.
 - The private repo's `.gitignore` excludes `.env`, `.env.local`, all generated
   output (`projects/*/output/`, caches), `memory/`, logs, and the research
-  scratch directory — so secrets and media are never committed in the first
+  scratch directory, so secrets and media are never committed in the first
   place.
 
 ## Spend safety
@@ -56,32 +56,32 @@ no shared history to leak from.
 Because every run spends real money, "safety" here is mostly about not
 overspending and not spending by surprise:
 
-- **Dry-run pricing** — `--dry-run` prices a run from an explicit cost map
+- **Dry-run pricing:** `--dry-run` prices a run from an explicit cost map
   before any API call is made.
-- **Per-model, per-resolution costing** — image cost is computed from the actual
+- **Per-model, per-resolution costing:** image cost is computed from the actual
   model and output resolution, not a flat estimate, so the dry-run number
   matches reality.
-- **Approval gates (operator)** — the director presents estimated cost and a
+- **Approval gates (operator):** the director presents estimated cost and a
   shot plan for approval before generating, and by convention pauses runs over
   ~$3 or 10 scenes after the first scene for a visual check.
-- **Failure isolation** — one scene's provider error is caught, logged, and
+- **Failure isolation:** one scene's provider error is caught, logged, and
   recorded as a null result with zero cost charged for it; the batch continues.
   No silent retry loop that quietly multiplies spend.
 
 ## Content & attribution safety
 
 - The opt-in research tier records source URLs as **attribution** and explicitly
-  **does not download or redistribute copyrighted images** — it extracts
+  **does not download or redistribute copyrighted images**; it extracts
   technical recipes (lighting, lens, grade) into prose.
 - Generation has documented guidance to keep wardrobe and composition within
-  providers' content policies (also a practical necessity — see the
+  providers' content policies (also a practical necessity; see the
   content-filter failure mode in the case study).
 
 ## Threat-model honesty
 
 This is a **single-operator CLI**, and the security posture matches that:
 
-- There is **no untrusted input surface** — the operator writes the config; it
+- There is **no untrusted input surface**: the operator writes the config; it
   isn't accepting requests from the internet.
 - There is **no auth, no multi-tenancy, no network service**, because there is
   no server.

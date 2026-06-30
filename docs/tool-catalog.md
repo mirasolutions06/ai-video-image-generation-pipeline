@@ -7,7 +7,7 @@ the "what's actually in there" reference.
 
 | Mode | Purpose | Config type |
 |---|---|---|
-| `images` | Product/brand still photography — the hot path | `ProjectConfig` |
+| `images` | Product/brand still photography, the hot path | `ProjectConfig` |
 | `video` | Short-form video, image-to-video + optional render | `VideoConfig` |
 | `overlay` | Typographic text-on-photo campaign lockups | `OverlayConfig` |
 
@@ -20,7 +20,7 @@ each gets its own validation.
 |---|---|
 | `--project <name>` | **Required.** Project folder under `projects/`. |
 | `--dry-run` | Estimate cost from the cost map; no API calls. |
-| `--render` | Video mode — enable the Remotion render path. |
+| `--render` | Video mode: enable the Remotion render path. |
 | `--research` | Run the opt-in web-research reference tier. |
 
 ## Provider adapters (10)
