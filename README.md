@@ -1,54 +1,93 @@
 <div align="center">
 
-# Mira Content Engine
+# Content Engine
 
 **One line of brief in. Campaign-grade product photography and short-form video out.**
-A command-line engine that orchestrates around ten generative image, video, and
-audio models behind a single reproducible, cost-controlled pipeline.
+A TypeScript engine that orchestrates around ten generative image, video, and
+audio models behind one reproducible, cost-controlled pipeline.
 
-[![Live](https://img.shields.io/badge/live-miracontent.studio-000000.svg)](https://miracontent.studio)
-![Providers](https://img.shields.io/badge/model%20providers-10-blue.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![CI](https://github.com/mirasolutions06/ai-video-image-generation-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/mirasolutions06/ai-video-image-generation-pipeline/actions/workflows/ci.yml)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6.svg)
 ![Modes](https://img.shields.io/badge/modes-images%20·%20video%20·%20overlay-8A2BE2.svg)
-![Proof package](https://img.shields.io/badge/type-proof%20package-lightgrey.svg)
+![Tests](https://img.shields.io/badge/tests-58-brightgreen.svg)
 
 <img src="examples/outputs/sounds-headphones-hero.jpg" alt="On-model lifestyle" height="230"> <img src="examples/outputs/zappy-court-lifestyle.jpg" alt="Product in use" height="230"> <img src="examples/outputs/form-creatine-packshot-pair.jpg" alt="Packshot with text fidelity" height="230">
 
 <sub>All fully AI-generated: real on-model skin · a legible label in motion · crisp packshot text.</sub>
 
-[Live site](https://miracontent.studio) · [Case study](CASE_STUDY.md) · [Architecture](docs/architecture.md)
+[Quick start](#run-it) · [Examples](examples/) · [Architecture](docs/architecture.md) · [Case study](CASE_STUDY.md)
 
 </div>
 
-> **Honest status:** this is a public **proof package**. It documents the
-> architecture, the engineering decisions, and the operational thinking; the
-> working code and the brand projects stay in a private repository. The engine is
-> real and in use behind [Mira Content Studio](https://miracontent.studio), run
-> operator-in-the-loop from the terminal. No usage, revenue, or customer numbers
-> are claimed.
+## The whole idea, in one config
 
-## Why
+The naive approach, "call an image model with a prompt," gives stock-looking
+output no one would pay for, and different stock-looking output every time. This
+engine makes every prompt a **fully specified photographic brief**, so the model
+renders a photograph that could actually exist:
 
-Conventional product photography for a small brand means a studio, a photographer,
-a model, a stylist, and a multi-week turnaround for a handful of usable frames. The
-naive AI version, "call an image model with a prompt," gives you stock-looking
-output no one would pay for, and different stock-looking output every time, so a
-brand never develops a consistent look.
+```jsonc
+// projects/klint/config.json  (one scene of three)
+{
+  "prompt": "Hero still of a matte oatmeal-glaze stoneware pour-over dripper on pale oak, three-quarter front, soft north-window daylight camera-left at 45 degrees (large soft source, fill 2:1), gentle rim, 85mm f/2.8, shallow but readable depth, Kodak Portra 400 grade, in the manner of Irving Penn still-life stillness.",
+  "hasProduct": true, "hasModel": false, "isDetail": false
+}
+```
 
-The interesting problem was never the API call. It was everything around it:
-thinking like a photographer on every single shot (light, lens, grade, a named
-reference), keeping a brand visually consistent across dozens of runs, spending
-money predictably, and recovering from the specific, repeatable ways these models
-fail.
+Shot, subject, exact materials, light direction and ratio, lens, depth, grade, a
+photographer to anchor the look. That is the difference between "a bottle on a
+table" and a frame a brand would pay for. The [director](#the-director) writes
+these; the pipeline runs them.
+
+## Run it
+
+```bash
+npm install
+cp .env.example .env      # add GEMINI_API_KEY and/or OPENAI_API_KEY
+npm test                  # 58 tests, providers mocked, no keys needed
+```
+
+Then price a run before you spend, and generate:
+
+```console
+$ npm start -- --project klint --dry-run
+  images · 3 scenes · gemini-3-pro-image-preview @2K
+  estimated cost: ~$0.40   (no API calls made)
+
+$ npm start -- --project klint
+  ✓ Scene 1: done   ✓ Scene 2: done   ✓ Scene 3: done
+  Run v1 complete. 3/3 scenes generated. Cost: $0.39  ->  output/v1/
+```
+
+Re-run after a fix and you get `output/v2/`; the previous version is never
+overwritten, and `run.json` records every prompt, reference, and cost.
 
 ## What it does
 
-| Stage | What happens |
+| | |
 |---|---|
-| **Director** | A markdown knowledge base (photographers, lighting, lenses, color grades) turns a brief into a fully specified photographic brief per shot. No API call: this is structured judgment, not a model. |
-| **Pipeline** | A TypeScript CLI generates each scene against the chosen provider, with reference filtering, style anchoring, cost tracking, and versioned output. |
+| **Director → config** | A markdown "photography director" turns a brief into a config where every shot is a complete photographic brief. No API call: structured judgment, not a model. |
+| **Pipeline** | Generates each scene against the chosen provider, with per-scene reference filtering, a scene-1 style anchor, cost tracking, and versioned output. |
 | **Brand library** | Winning frames are tagged and stored per brand, then fed back as references on later runs, so a brand's look compounds instead of drifting. |
 | **Three modes** | `images` (the hot path), `video`, and `overlay` (typographic campaign lockups), selected by a discriminated-union config. |
-| **Cost control** | A dry-run prices every run from an explicit cost map before a penny is spent; runs fail loud rather than silently re-rolling. |
+| **Cost control** | `--dry-run` prices a run from an explicit cost map before a penny is spent; runs fail loud rather than silently re-rolling. |
+
+## The director
+
+The director is markdown, not code, and makes **no API call**: it reads a
+reference library, picks one lighting setup and one grade for the whole batch, a
+lens per scene, and a photographer to cite, then writes the config the pipeline
+runs. The **method ships** in [`skills/director/`](skills/director/) (the
+workflow plus `frameworks.md`: shot-card grammar, material-physics rules). The
+reference catalog is a curated point of view, so it is **yours to build**: see
+[`skills/director/references/README.md`](skills/director/references/README.md) for
+the structure and a starter entry for each file.
+
+## Examples
+
+[`examples/`](examples/) has a complete synthetic `config.json` (a fictional
+ceramics brand) and a set of real sample frames. Start there.
 
 ## How it works
 
@@ -62,26 +101,39 @@ flowchart LR
     Library -. winners fed back .-> Pipeline
 ```
 
-The system separates **direction** (deciding what photograph to make) from
-**production** (making it), because they have different properties: direction is
-knowledge-shaped, cheap, and human-reviewable; production is API-shaped, costs
-money, and benefits from being deterministic and idempotent. Full detail in
+Direction (deciding what photograph to make) is separated from production (making
+it): direction is knowledge-shaped, cheap, and reviewable; production is
+API-shaped, costs money, and is deterministic and idempotent. Full detail in
 [docs/architecture.md](docs/architecture.md).
 
-## What is inside, and what is private
+## Providers
 
-This package contains the architecture docs, the case study, the exhaustive
-tool/mode catalog, a synthetic example config, and a curated set of real sample
-frames. It does **not** contain the engine source, the brand and client projects,
-brand memory, or the proprietary director prompts. See
-[docs/security-and-privacy.md](docs/security-and-privacy.md).
+Ten adapters, normalized to one internal request/result shape, so adding a
+provider is one file and the pipeline never changes.
 
-## Read more
+| Capability | Providers |
+|---|---|
+| Image | Google Gemini, OpenAI GPT Image |
+| Video | Google Veo, Seedance, Kling, Higgsfield |
+| Audio / voice | ElevenLabs, Whisper (captions) |
+| Render | Remotion (React-based composition, lazy-loaded) |
 
-- [CASE_STUDY.md](CASE_STUDY.md) - the engineering narrative: problem, design, tradeoffs, failure modes.
-- [docs/architecture.md](docs/architecture.md) - how the pieces fit, with diagrams.
-- [docs/tool-catalog.md](docs/tool-catalog.md) - every mode, provider, and skill file.
-- [miracontent.studio](https://miracontent.studio) - the live product this engine powers.
+## Built with
+
+TypeScript (strict) · commander · sharp · Remotion · `@google/genai` · `openai` ·
+`@fal-ai/client` · ElevenLabs · Higgsfield. 58 tests (Vitest, providers mocked)
+and CI.
+
+## Honest gaps
+
+Written up plainly in the [case study](CASE_STUDY.md): re-run inheritance is not
+fully wired, the cost ceiling is a convention rather than a hard code-level limit,
+and observability is per-run JSON with no metrics backend. No usage or performance
+numbers are claimed.
+
+## License
+
+MIT, see [LICENSE](LICENSE). Use it, fork it, point it at your own brands.
 
 ## Contact
 

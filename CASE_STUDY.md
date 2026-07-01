@@ -1,4 +1,4 @@
-# Case Study: Mira Content Engine
+# Case Study: Content Engine
 
 How I built a single-operator pipeline that turns a brand brief into
 campaign-grade imagery and video by orchestrating ~10 generative models, and
@@ -8,10 +8,9 @@ part.
 This is written to be honest about what works, what is a known gap, and what I
 would do next. There are no invented metrics.
 
-> **Context:** this engine is the private generation backend behind
-> [Mira Content Studio](https://miracontent.studio) (the live customer-facing
-> product). This case study is about the *engine* (the orchestration and ops
-> underneath), not the storefront.
+> **Context:** this is the generation engine itself, the orchestration and ops
+> underneath a brand-content pipeline. It runs operator-in-the-loop from the
+> terminal. No usage or performance numbers are claimed.
 
 ---
 

@@ -1,6 +1,6 @@
 # Architecture
 
-Mira Content Engine is a single-operator CLI that orchestrates external
+Content Engine is a single-operator CLI that orchestrates external
 generative models behind one reproducible pipeline. This document describes how
 the pieces fit together. It reflects the real implementation; where something is
 designed-but-not-wired it is called out.

@@ -1,37 +1,25 @@
 # Security & Privacy
 
-This package exists to demonstrate the engine **without** publishing anything
-sensitive. This document explains what is excluded and why, how the engine
-handles credentials and spend, and where the honest gaps are.
+This is the working engine, published under MIT. This document covers what is and
+is not included, how credentials and spend are handled, and the honest gaps.
 
-## The public / private boundary
+## What is included, and what is not
 
-There are two repositories:
+**Included:** the full engine source (`src/`), the tests, the build config, the
+director method (`skills/director/` SKILL and frameworks), a synthetic example
+config, and a small curated set of the author's own concept output frames.
 
-- **Private (local):** the full working engine, including source code, ~60+ brand project
-  folders (~3.6 GB of briefs, reference imagery, and generated stills/video),
-  the per-brand memory library, the full director prompt library, internal
-  campaign plans, and `.env`.
-- **Public (this one):** documentation, the case study, diagrams, a single
-  synthetic example config, and a small curated set of the author's own sample
-  output frames. No source code, no secrets, no client-confidential work.
+**Not shipped, and why:**
 
-This package was assembled in a **separate directory with its own fresh git
-history**, not by filtering the private repo. That removes the usual leak vector
-where a sanitized fork still carries secrets or media in old commits; there is
-no shared history to leak from.
-
-## What is intentionally excluded, and why
-
-| Excluded | Why |
+| Not shipped | Why |
 |---|---|
-| `.env`, API keys, tokens | Live credentials for paid model providers. Never published. |
-| Engine source code | Kept private; the design is documented here instead. |
-| `projects/**` (briefs, refs, generated media) | Real brand/client creative work and reference photography. Not mine to publish, and large. |
-| `memory/brands/**` | Per-brand library of winning frames: the brand's accumulated visual identity. |
-| Full director prompt library | The exact enrichment prompts and reference catalog: the core IP. |
-| Internal plans / specs | Roadmap and campaign design notes. |
-| The full generated-media library | Only a **small curated set** of the author's own concept frames is published (see the README gallery); the rest (and anything resembling confidential client work) stays private. The example config is synthetic. |
+| `.env`, API keys, tokens | Live credentials. Only key *names* appear, in `.env.example` with empty values. |
+| Real projects and generated media | 60+ brand project folders (briefs, references, output). Real creative work, not published. |
+| Per-brand memory library | The accumulated per-brand library of winning frames. |
+| The full director reference catalog | The curated photographer / lighting / lens / pose / grade library is a proprietary point of view. The method ships in `skills/director/`; the catalog is yours to build (see `skills/director/references/README.md`). |
+
+This repo was assembled in a fresh directory with its own git history, so no
+secret or media can leak from old commits.
 
 ## Credential handling
 
