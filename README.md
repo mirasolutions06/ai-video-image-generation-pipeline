@@ -52,9 +52,14 @@ fail.
 
 ## How it works
 
-```
-brief  ->  director (prompt enrichment, $0)  ->  config.json  ->  pipeline  ->  versioned output
-                                                                    \ brand library accumulates winners
+```mermaid
+flowchart LR
+    Brief["Brief (one line)"] --> Director["Director<br/>enrichment · $0"]
+    Director --> Config["config.json"]
+    Config --> Pipeline["Pipeline<br/>generate · version · cost-track"]
+    Pipeline --> Output[("Versioned output")]
+    Pipeline --> Library[("Brand library")]
+    Library -. winners fed back .-> Pipeline
 ```
 
 The system separates **direction** (deciding what photograph to make) from
