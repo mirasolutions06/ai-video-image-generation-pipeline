@@ -11,7 +11,9 @@ audio models behind a single reproducible, cost-controlled pipeline.
 ![Modes](https://img.shields.io/badge/modes-images%20·%20video%20·%20overlay-8A2BE2.svg)
 ![Proof package](https://img.shields.io/badge/type-proof%20package-lightgrey.svg)
 
-<img src="examples/outputs/sounds-headphones-hero.jpg" alt="AI-generated on-model product photography with realistic skin" width="760">
+<img src="examples/outputs/sounds-headphones-hero.jpg" alt="On-model lifestyle" height="230"> <img src="examples/outputs/zappy-court-lifestyle.jpg" alt="Product in use" height="230"> <img src="examples/outputs/form-creatine-packshot-pair.jpg" alt="Packshot with text fidelity" height="230">
+
+<sub>All fully AI-generated: real on-model skin · a legible label in motion · crisp packshot text.</sub>
 
 [Live site](https://miracontent.studio) · [Case study](CASE_STUDY.md) · [Architecture](docs/architecture.md)
 
@@ -47,16 +49,6 @@ fail.
 | **Brand library** | Winning frames are tagged and stored per brand, then fed back as references on later runs, so a brand's look compounds instead of drifting. |
 | **Three modes** | `images` (the hot path), `video`, and `overlay` (typographic campaign lockups), selected by a discriminated-union config. |
 | **Cost control** | A dry-run prices every run from an explicit cost map before a penny is spent; runs fail loud rather than silently re-rolling. |
-
-## Sample output
-
-The author's own concept work, fully AI-generated, resized for the web. More in
-[examples/outputs/](examples/outputs/).
-
-| On-model lifestyle | Action / product-in-use | Packshot + text fidelity |
-|---|---|---|
-| ![sounds](examples/outputs/sounds-headphones-hero.jpg) | ![zappy](examples/outputs/zappy-court-lifestyle.jpg) | ![FORM](examples/outputs/form-creatine-packshot-pair.jpg) |
-| Real skin, not the airbrushed "AI look" | Legible label in motion, correct scale | Crisp small text; front and back composed to match |
 
 ## How it works
 
