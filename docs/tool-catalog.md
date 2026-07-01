@@ -1,7 +1,7 @@
 # Tool Catalog
 
-The full surface of the engine, verified against the private repository. This is
-the "what's actually in there" reference.
+The public surface of the engine, verified against this repo's source tree. This
+is the "what's actually in there" reference.
 
 ## Pipeline modes (3)
 
@@ -57,8 +57,9 @@ speak a provider's native protocol.
 
 ## Director skill (markdown knowledge base)
 
-The prompt-engineering "brain." No API call. Full prompt text is private; the
-structure:
+The prompt-engineering "brain." No API call. The public repo includes the method
+and reference-library structure; private brand/client reference entries stay out
+of git. The structure:
 
 | Area | Files | Role |
 |---|---|---|

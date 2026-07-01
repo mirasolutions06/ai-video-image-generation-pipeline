@@ -20,6 +20,24 @@ audio models behind one reproducible, cost-controlled pipeline.
 
 </div>
 
+## At a glance
+
+This repo is a runnable TypeScript pipeline for generating branded product
+images, short videos, and text overlays. It is useful if you want to take a
+clear brief, turn it into repeatable production settings, estimate cost before
+calling paid APIs, and keep every output versioned.
+
+| Path | What it contains |
+|---|---|
+| `src/cli.ts` | Command-line entry point for project runs and dry runs. |
+| `src/modes/` | The three production paths: `images`, `video`, and `overlay`. |
+| `src/providers/` | Provider adapters for image, video, voice, and caption APIs. |
+| `src/render/` | Remotion compositions for rendered ads and short-form video. |
+| `src/lib/` | Costing, validation, versioning, references, memory, and retry helpers. |
+| `skills/director/` | The markdown director workflow that turns briefs into shot-ready configs. |
+| `examples/` | Synthetic config and sample output frames. |
+| `test/` | Vitest coverage for modes, providers, validation, cost, refs, and versioning. |
+
 ## The whole idea, in one config
 
 The naive approach, "call an image model with a prompt," gives stock-looking

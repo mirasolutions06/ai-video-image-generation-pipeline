@@ -1,7 +1,21 @@
 {
   "name": "content-engine",
   "version": "0.1.0",
+  "description": "TypeScript pipeline for cost-controlled AI product imagery, short-form video, and campaign overlays.",
+  "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mirasolutions06/ai-video-image-generation-pipeline.git"
+  },
+  "keywords": [
+    "ai-content-generation",
+    "image-generation",
+    "video-generation",
+    "typescript",
+    "remotion",
+    "cost-control"
+  ],
   "scripts": {
     "start": "tsx src/cli.ts",
     "revoice": "tsx src/revoice.ts",
@@ -9,6 +23,7 @@
     "test:watch": "vitest",
     "build": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm test",
     "remotion": "remotion studio src/render/Root.tsx"
   },
   "dependencies": {
