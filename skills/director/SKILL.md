@@ -152,14 +152,16 @@ npm start -- --project {name}
 
 ### GATE 2 (auto, expensive runs only)
 
-If estimated cost > $3 or scene count > 10, the pipeline pauses after scene 1. You vibe-check, approve, and the rest runs in parallel.
+If estimated cost > $3 or scene count > 10, use an operator gate before spending
+on the full batch: dry-run first, optionally run a one-scene config, vibe-check,
+then restore the full config and continue.
 
 ### Scene feedback
 
 | User says | Action |
 |---|---|
 | "scene 3 too dark" | Update prompt in config, re-run; bumps version |
-| "redo scene 5 with hand fix" | Update prompt, re-run with `--regenerate 5` |
+| "redo scene 5 with hand fix" | Update that scene's prompt, trim to that scene if needed, and re-run; bumps version |
 | "tag scene 7 as hero" | Run `BrandMemory.tagImage` (manual or via skill helper) |
 | "looks good" | Done |
 

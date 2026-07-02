@@ -32,8 +32,9 @@ the ways it fails. This is the day-to-day operator view.
 - Every run is priced **before** it spends, from an explicit cost map.
 - Image cost is computed per model and per resolution (cheap iteration model vs.
   the pro model at 2K/4K), so estimates match the bill.
-- The director gates expensive runs (over ~$3 or 10 scenes) behind a human
-  check after scene 1: generate one, vibe-check, then release the rest.
+- For expensive runs (over ~$3 or 10 scenes), use an operator gate before the
+  full run: dry-run first, optionally trim the config to one scene, check the
+  result, then restore the batch and continue.
 - Cost is accumulated through the run and written into `run.json`, so every
   output folder records exactly what it cost.
 
@@ -79,8 +80,8 @@ changes, so treat as order-of-magnitude):
 
 ## Concurrency & gates
 
-- **Images run sequentially** (`PARALLEL_LIMIT = 1`) on purpose, so the
-  after-scene-1 review gate is meaningful before the rest of the batch spends.
+- **Images run sequentially** (`PARALLEL_LIMIT = 1`) on purpose, keeping spend
+  and provider behavior predictable during operator-led review.
 - **Video clips** can specify different providers per clip in one run.
 - Gates are operator gates (human approval), not automated; this is a
   human-in-the-loop tool by design.

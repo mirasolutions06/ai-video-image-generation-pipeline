@@ -1,10 +1,9 @@
 # Sample outputs
 
 A small curated set of frames the engine produced, chosen to show range and to
-back up specific claims made elsewhere in this package. These are the author's
-own concept / spec work (**not** paid client campaigns), and every frame is
-fully AI-generated, then resized for the web. The full output library (and the
-exact prompts that produced these) stays private.
+back up specific claims made elsewhere in this package. These are sanitized
+concept/spec frames, and every frame is fully AI-generated, then resized for the
+web. The full output library and exact private prompts stay out of the repo.
 
 ---
 

@@ -187,7 +187,7 @@ rendering wants a different model and a mask, not a diffusion prompt.
 | File-based `projects/` + `memory/`, no DB | Simple, inspectable, git-friendly, zero infra | Won't scale to multi-user or concurrent runs |
 | Single CLI, human-in-the-loop gates | Spend safety, creative review | Not unattended/automatable as-is |
 | 10 provider adapters | Best tool per job, easy to add more | Real maintenance surface as provider APIs drift |
-| Images run sequentially (`PARALLEL_LIMIT = 1`) | Lets the after-scene-1 vibe-check gate work | Slower than max throughput |
+| Images run sequentially (`PARALLEL_LIMIT = 1`) | Keeps spend and provider behavior predictable while reviewing outputs | Slower than max throughput |
 
 ## 7. Failure modes (the real ones)
 
@@ -226,8 +226,9 @@ encoded workarounds are most of the engine's practical value:
   re-run re-bills every scene, even though the README's "only pay for what
   changed" framing implies otherwise. This is the single most misleading gap and
   the first thing I'd close.
-- **`--regenerate <n>` is referenced by the director but not implemented in the
-  CLI.** The documented "redo scene 5" flow is currently manual.
+- **`--regenerate <n>` is not implemented in the CLI.** Scene-specific reruns
+  are currently manual: edit or trim the config, run again, and compare the new
+  version folder.
 - **Cost gates are a convention, not enforced in code.** The >$3 / >10-scene
   pause lives in the director's instructions, not in the pipeline. A hard ceiling
   belongs in code.
@@ -269,6 +270,6 @@ The smallest useful additions, in priority order:
 
 ---
 
-*The engine is real and in active use producing client and concept work; it runs
+*The engine is real and in active use producing private and concept work; it runs
 operator-in-the-loop from the terminal and has not been deployed as a hosted
 service, and no usage or performance numbers are claimed.*

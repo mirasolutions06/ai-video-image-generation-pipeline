@@ -1,7 +1,7 @@
 # Examples
 
-Everything here is generic and safe to read: a synthetic brand and a few of the
-author's own concept frames. No client work.
+Everything here is generic and safe to read: a synthetic brand and sanitized
+concept frames. No private project work.
 
 ## `example-config.json`
 

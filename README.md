@@ -16,7 +16,7 @@ audio models behind one reproducible, cost-controlled pipeline.
 
 <sub>All fully AI-generated: real on-model skin · a legible label in motion · crisp packshot text.</sub>
 
-[Quick start](#run-it) · [Examples](examples/) · [Architecture](docs/architecture.md) · [Case study](CASE_STUDY.md)
+[Quick start](#run-it) · [Examples](examples/) · [Tool catalog](docs/tool-catalog.md) · [Operations](docs/operations.md) · [Architecture](docs/architecture.md)
 
 </div>
 
@@ -26,6 +26,20 @@ This repo is a runnable TypeScript pipeline for generating branded product
 images, short videos, and text overlays. It is useful if you want to take a
 clear brief, turn it into repeatable production settings, estimate cost before
 calling paid APIs, and keep every output versioned.
+
+| This repo owns | You provide |
+|---|---|
+| CLI, config validation, provider adapters, cost tracking, versioned outputs, director workflow, sample configs, tests | Your project brief, provider keys, product/reference assets, review decisions, private brand library |
+
+## Modes
+
+| Mode | Use it for | Output |
+|---|---|---|
+| `images` | Product stills, lifestyle frames, campaign photography | Versioned image scenes plus `run.json` |
+| `video` | Short clips, voice/caption-assisted video, rendered ads | Provider clips and optional Remotion render |
+| `overlay` | Text-on-photo campaign lockups | Typeset overlay frames |
+
+## Repository map
 
 | Path | What it contains |
 |---|---|
@@ -64,6 +78,8 @@ these; the pipeline runs them.
 npm install
 cp .env.example .env      # add GEMINI_API_KEY and/or OPENAI_API_KEY
 npm test                  # 58 tests, providers mocked, no keys needed
+mkdir -p projects/klint
+cp examples/example-config.json projects/klint/config.json
 ```
 
 Then price a run before you spend, and generate:
@@ -106,6 +122,12 @@ the structure and a starter entry for each file.
 
 [`examples/`](examples/) has a complete synthetic `config.json` (a fictional
 ceramics brand) and a set of real sample frames. Start there.
+
+```bash
+mkdir -p projects/klint
+cp examples/example-config.json projects/klint/config.json
+npm start -- --project klint --dry-run
+```
 
 ## How it works
 
@@ -152,9 +174,3 @@ numbers are claimed.
 ## License
 
 MIT, see [LICENSE](LICENSE). Use it, fork it, point it at your own brands.
-
-## Contact
-
-Built and operated by Mira Solutions, an AI engineering and automation studio.
-
-mira.solutions06@gmail.com
