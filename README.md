@@ -174,3 +174,8 @@ numbers are claimed.
 ## License
 
 MIT, see [LICENSE](LICENSE). Use it, fork it, point it at your own brands.
+
+## Contact
+
+Built and operated by Mira Solutions, an AI engineering and automation studio.
+mira.solutions06@gmail.com
